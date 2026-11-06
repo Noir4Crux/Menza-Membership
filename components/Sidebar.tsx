@@ -11,8 +11,8 @@ type SidebarProps = {
 const menuItems = [
   { label: "Dashboard", icon: "grid", href: "/member/dashboard" },
   { label: "Pilih Layanan", icon: "service", href: "/member/layanan" },
-  { label: "Info Membership", icon: "crown", href: "#" },
-  { label: "Riwayat Transaksi", icon: "history", href: "#" },
+  { label: "Info Membership", icon: "crown", href: "/member/membership" },
+  { label: "Riwayat Transaksi", icon: "history", href: "/member/riwayat" },
 ];
 
 function MenuIcon({ name }: { name: string }) {
@@ -55,6 +55,7 @@ export default function Sidebar({ role }: SidebarProps) {
   const pathname = usePathname();
   const isServicePage =
     pathname === "/member/layanan" || pathname === "/member/ringkasan";
+  const isHistoryPage = pathname.startsWith("/member/riwayat");
 
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-[240px] flex-col bg-[#181818] text-white md:flex">
@@ -78,7 +79,8 @@ export default function Sidebar({ role }: SidebarProps) {
             href={item.href}
             className={`flex h-[50px] items-center gap-[18px] px-[30px] text-[13px] font-bold ${
               (pathname === item.href ||
-                (item.href === "/member/layanan" && isServicePage))
+                (item.href === "/member/layanan" && isServicePage) ||
+                (item.href === "/member/riwayat" && isHistoryPage))
                 ? "border-l-4 border-[#f5c842] bg-black pl-[26px]"
                 : "text-white"
             }`}
