@@ -1,3 +1,7 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 export type MemberRole = "member" | "admin" | "barber" | "owner" | "supplier";
 
 type SidebarProps = {
@@ -5,10 +9,10 @@ type SidebarProps = {
 };
 
 const menuItems = [
-  { label: "Dashboard", icon: "grid", active: true },
-  { label: "Pilih Layanan", icon: "service" },
-  { label: "Info Membership", icon: "crown" },
-  { label: "Riwayat Transaksi", icon: "history" },
+  { label: "Dashboard", icon: "grid", href: "/member/dashboard" },
+  { label: "Pilih Layanan", icon: "service", href: "/member/layanan" },
+  { label: "Info Membership", icon: "crown", href: "#" },
+  { label: "Riwayat Transaksi", icon: "history", href: "#" },
 ];
 
 function MenuIcon({ name }: { name: string }) {
@@ -48,6 +52,8 @@ function MenuIcon({ name }: { name: string }) {
 }
 
 export default function Sidebar({ role }: SidebarProps) {
+  const pathname = usePathname();
+
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-[240px] flex-col bg-[#181818] text-white md:flex">
       <div className="flex h-[102px] flex-col items-center justify-center border-b border-white/20">
@@ -67,9 +73,9 @@ export default function Sidebar({ role }: SidebarProps) {
         {menuItems.map((item) => (
           <a
             key={item.label}
-            href="#"
+            href={item.href}
             className={`flex h-[50px] items-center gap-[18px] px-[30px] text-[13px] font-bold ${
-              item.active ? "border-l-4 border-[#f5c842] bg-black pl-[26px]" : "text-white"
+              pathname === item.href ? "border-l-4 border-[#f5c842] bg-black pl-[26px]" : "text-white"
             }`}
           >
             <MenuIcon name={item.icon} />
