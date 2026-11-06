@@ -31,7 +31,7 @@ export default function MasukPage() {
                 <Link
                   key={slug}
                   href={`/masuk/${slug}`}
-                  className="flex h-[36px] items-center justify-center rounded-[6px] border border-[#9e9e9e] text-[12px] font-bold text-[#1a1a1a]"
+                  className="flex h-[36px] items-center justify-center rounded-[6px] border border-[#9e9e9e] text-[12px] font-bold text-[#1a1a1a] transition-colors duration-200 hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white active:scale-[0.98]"
                 >
                   {label}
                 </Link>
