@@ -53,6 +53,8 @@ function MenuIcon({ name }: { name: string }) {
 
 export default function Sidebar({ role }: SidebarProps) {
   const pathname = usePathname();
+  const isServicePage =
+    pathname === "/member/layanan" || pathname === "/member/ringkasan";
 
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-[240px] flex-col bg-[#181818] text-white md:flex">
@@ -75,7 +77,10 @@ export default function Sidebar({ role }: SidebarProps) {
             key={item.label}
             href={item.href}
             className={`flex h-[50px] items-center gap-[18px] px-[30px] text-[13px] font-bold ${
-              pathname === item.href ? "border-l-4 border-[#f5c842] bg-black pl-[26px]" : "text-white"
+              (pathname === item.href ||
+                (item.href === "/member/layanan" && isServicePage))
+                ? "border-l-4 border-[#f5c842] bg-black pl-[26px]"
+                : "text-white"
             }`}
           >
             <MenuIcon name={item.icon} />
