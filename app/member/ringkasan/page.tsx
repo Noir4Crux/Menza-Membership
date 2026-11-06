@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Sidebar from "../../../components/Sidebar";
 import Topbar from "../../../components/Topbar";
 
@@ -34,9 +35,9 @@ export default function RingkasanPembayaranPage() {
           <section className="mt-[24px] w-full max-w-[525px] rounded-[8px] border border-[#ededeb] bg-white px-[20px] pb-[20px] pt-[22px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
             <div className="flex items-center justify-between">
               <h2 className="text-[16px] font-bold">Detail Layanan</h2>
-              <button type="button" className="text-[15px] font-bold">
+              <Link href="/member/layanan" className="text-[15px] font-bold">
                 Ubah
-              </button>
+              </Link>
             </div>
 
             <div className="mt-[18px] flex items-center gap-[16px]">
@@ -81,18 +82,18 @@ export default function RingkasanPembayaranPage() {
                 Tukarkan poin untuk mendapatkan diskon
               </p>
               <div className="mt-[12px] grid grid-cols-2 gap-[16px]">
-                <button
-                  type="button"
-                  className="h-[42px] rounded-[8px] border border-[#d9d9d7] bg-white text-[16px] font-bold"
+                <Link
+                  href="/member/pembayaran?poin=ya"
+                  className="flex h-[42px] items-center justify-center rounded-[8px] border border-[#d9d9d7] bg-white text-[16px] font-bold"
                 >
                   Ya
-                </button>
-                <button
-                  type="button"
-                  className="h-[42px] rounded-[8px] border border-[#d9d9d7] bg-white text-[16px] font-bold"
+                </Link>
+                <Link
+                  href="/member/pembayaran?poin=tidak"
+                  className="flex h-[42px] items-center justify-center rounded-[8px] border border-[#d9d9d7] bg-white text-[16px] font-bold"
                 >
                   Tidak
-                </button>
+                </Link>
               </div>
             </div>
           </section>
