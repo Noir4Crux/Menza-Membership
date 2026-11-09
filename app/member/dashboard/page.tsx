@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Sidebar from "../../../components/Sidebar";
 import StatCard from "../../../components/StatCard";
 import Topbar from "../../../components/Topbar";
@@ -46,7 +47,7 @@ export default function MemberDashboardPage() {
           <section className="mt-[28px]">
             <h2 className="text-[20px] font-bold">Mulai Layanan</h2>
             <div className="mt-[16px] grid gap-[20px] md:grid-cols-2">
-              <a href="#" className="flex min-h-[170px] items-center gap-[22px] rounded-[8px] border border-[#e3e3e0] bg-white px-[24px]">
+              <Link href="/member/layanan" className="flex min-h-[170px] items-center gap-[22px] rounded-[8px] border border-[#e3e3e0] bg-white px-[24px]">
                 <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[58px] w-[58px] fill-none stroke-black">
                   <path d="M5 5l14 14M19 5L5 19" strokeWidth="2" strokeLinecap="round" />
                   <circle cx="6" cy="6" r="4" />
@@ -56,9 +57,9 @@ export default function MemberDashboardPage() {
                   <h3 className="text-[18px] font-bold">Pilih Layanan</h3>
                   <p className="mt-[2px] text-[16px] text-[#6b6b66]">Lihat dan pilih layanan</p>
                 </div>
-              </a>
+              </Link>
 
-              <a href="#" className="flex min-h-[170px] items-center gap-[22px] rounded-[8px] border border-[#e3e3e0] bg-white px-[24px]">
+              <Link href="/member/riwayat" className="flex min-h-[170px] items-center gap-[22px] rounded-[8px] border border-[#e3e3e0] bg-white px-[24px]">
                 <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[58px] w-[58px] fill-none stroke-black">
                   <path d="M4 12a8 8 0 1 0 3-6.2L4 8" strokeWidth="2" strokeLinecap="round" />
                   <path d="M4 3v5h5M12 7v5l3 2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -67,7 +68,7 @@ export default function MemberDashboardPage() {
                   <h3 className="text-[18px] font-bold">Riwayat Transaksi</h3>
                   <p className="mt-[2px] text-[16px] text-[#6b6b66]">Lihat riwayat kunjungan dan pembayaran</p>
                 </div>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

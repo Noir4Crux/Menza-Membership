@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import LoginForm from "./LoginForm";
 
 type RolePageProps = {
   params: Promise<{ role: string }>;
@@ -15,14 +16,18 @@ const roles = {
   supplier: "/supplier/dashboard",
 } as const;
 
+function isLoginRole(role: string): role is keyof typeof roles {
+  return Object.hasOwn(roles, role);
+}
+
 async function LoginRole({ params }: RolePageProps) {
   const { role } = await params;
 
-  if (!(role in roles)) {
+  if (!isLoginRole(role)) {
     notFound();
   }
 
-  const destination = roles[role as keyof typeof roles];
+  const selectedRole = role;
 
   return (
     <main className="grid min-h-screen grid-cols-1 bg-[#474747] font-sans md:grid-cols-[51.25%_48.75%]">
@@ -48,31 +53,9 @@ async function LoginRole({ params }: RolePageProps) {
               Login
             </h1>
 
-            <div className="mt-[46px] space-y-[20px]">
-              <label className="block">
-                <span className="sr-only">Email</span>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="h-[38px] w-full border-b border-[#777777] bg-transparent px-0 text-[12px] text-[#1a1a1a] outline-none placeholder:text-[#777777]"
-                />
-              </label>
-              <label className="block">
-                <span className="sr-only">Password</span>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="h-[38px] w-full border-b border-[#777777] bg-transparent px-0 text-[12px] text-[#1a1a1a] outline-none placeholder:text-[#777777]"
-                />
-              </label>
+            <div className="mt-[46px]">
+              <LoginForm role={selectedRole} />
             </div>
-
-            <Link
-              href={destination}
-              className="mt-[24px] flex h-[36px] items-center justify-center rounded-[6px] bg-[#0d0d0d] text-[12px] text-white"
-            >
-              Login
-            </Link>
 
             {role === "member" && (
               <p className="mt-[24px] text-center text-[10px] text-[#1a1a1a]">

@@ -8,11 +8,21 @@ type SidebarProps = {
   role: MemberRole;
 };
 
-const menuItems = [
+const memberMenuItems = [
   { label: "Dashboard", icon: "grid", href: "/member/dashboard" },
   { label: "Pilih Layanan", icon: "service", href: "/member/layanan" },
   { label: "Info Membership", icon: "crown", href: "/member/membership" },
   { label: "Riwayat Transaksi", icon: "history", href: "/member/riwayat" },
+];
+
+const adminMenuItems = [
+  { label: "Dashboard", icon: "grid", href: "/admin/dashboard" },
+  { label: "Daftar Member", icon: "members", href: "/admin/member" },
+  { label: "Verifikasi Data", icon: "verify", href: "/admin/verifikasi" },
+  { label: "Catat Transaksi", icon: "transaction", href: "/admin/transaksi" },
+  { label: "Masa Berlaku", icon: "calendar", href: "/admin/masa-berlaku" },
+  { label: "Notifikasi", icon: "bell", href: "/admin/notifikasi" },
+  { label: "Laporan Bulanan", icon: "report", href: "/admin/laporan" },
 ];
 
 function MenuIcon({ name }: { name: string }) {
@@ -23,6 +33,62 @@ function MenuIcon({ name }: { name: string }) {
         <rect x="14" y="3" width="7" height="7" rx="1" />
         <rect x="3" y="14" width="7" height="7" rx="1" />
         <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg>
+    );
+  }
+
+  if (name === "members") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[20px] w-[20px] fill-none stroke-current">
+        <circle cx="9" cy="8" r="3" strokeWidth="1.8" />
+        <path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6" strokeWidth="1.8" strokeLinecap="round" />
+        <circle cx="17" cy="9" r="2.5" strokeWidth="1.8" />
+        <path d="M15 14c3.3 0 6 2.2 6 5" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  if (name === "verify") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[20px] w-[20px] fill-none stroke-current">
+        <circle cx="12" cy="12" r="9" strokeWidth="1.8" />
+        <path d="m7.8 12.1 2.7 2.7 5.9-6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (name === "transaction") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[20px] w-[20px] fill-none stroke-current">
+        <path d="M6 3h12v18l-2-1.2-2 1.2-2-1.2-2 1.2-2-1.2L6 21V3z" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M9 7h6M9 11h6M9 15h3" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  if (name === "calendar") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[20px] w-[20px] fill-none stroke-current">
+        <rect x="3" y="5" width="18" height="16" rx="2" strokeWidth="1.8" />
+        <path d="M8 3v4M16 3v4M3 10h18" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M7 14h3v3H7z" strokeWidth="1.5" />
+      </svg>
+    );
+  }
+
+  if (name === "bell") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[20px] w-[20px] fill-none stroke-current">
+        <path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9z" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M10 21h4" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  if (name === "report") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[20px] w-[20px] fill-none stroke-current">
+        <path d="M4 20V9M10 20V4M16 20v-7M22 20V11" strokeWidth="2" strokeLinecap="round" />
       </svg>
     );
   }
@@ -53,6 +119,14 @@ function MenuIcon({ name }: { name: string }) {
 
 export default function Sidebar({ role }: SidebarProps) {
   const pathname = usePathname();
+  const menusByRole = {
+    member: memberMenuItems,
+    admin: adminMenuItems,
+    barber: memberMenuItems,
+    owner: memberMenuItems,
+    supplier: memberMenuItems,
+  };
+  const menuItems = menusByRole[role];
   const isServicePage =
     pathname === "/member/layanan" || pathname === "/member/ringkasan";
   const isHistoryPage = pathname.startsWith("/member/riwayat");
@@ -72,7 +146,12 @@ export default function Sidebar({ role }: SidebarProps) {
         </div>
       </div>
 
-      <nav className="mt-[18px] flex flex-col gap-[2px]" aria-label={`${role} navigation`}>
+      <nav key={role} className="mt-[18px] flex flex-col gap-[2px]" aria-label={`${role} navigation`}>
+        {role === "admin" && (
+          <div className="px-[30px] pb-[10px] text-[11px] font-bold text-[#bdbdbd]">
+            Menu Administrator
+          </div>
+        )}
         {menuItems.map((item) => (
           <a
             key={item.label}

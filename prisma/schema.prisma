@@ -40,12 +40,13 @@ model Layanan {
 }
 
 model Member {
-  MemberID                                   String      @id @db.VarChar(10)
-  NamaMember                                 String      @db.VarChar(50)
-  StatusMembership                           String      @db.VarChar(15)
-  Membership                                 Membership  @relation(fields: [StatusMembership], references: [StatusMembership])
-  Transaksi_Transaksi_MemberIDToMember       Transaksi[] @relation("Transaksi_MemberIDToMember")
-  Transaksi_Transaksi_MemberMemberIDToMember Transaksi[] @relation("Transaksi_MemberMemberIDToMember")
+  MemberID                                   String       @id @db.VarChar(10)
+  NamaMember                                 String       @db.VarChar(50)
+  StatusMembership                           String       @db.VarChar(15)
+  Membership                                 Membership   @relation(fields: [StatusMembership], references: [StatusMembership])
+  Member_Info                                Member_Info?
+  Transaksi_Transaksi_MemberIDToMember       Transaksi[]  @relation("Transaksi_MemberIDToMember")
+  Transaksi_Transaksi_MemberMemberIDToMember Transaksi[]  @relation("Transaksi_MemberMemberIDToMember")
 }
 
 model Membership {
@@ -85,4 +86,21 @@ model Transaksi {
 
   @@index([MemberID], map: "idx_transaksi_member")
   @@index([TanggalTransaksi], map: "idx_transaksi_tanggal")
+}
+
+model Member_Info {
+  MemberID      String    @id @db.VarChar(10)
+  NomorHP       String?   @db.VarChar(15)
+  TanggalDaftar DateTime  @default(dbgenerated("CURRENT_DATE")) @db.Date
+  MasaBerlaku   DateTime? @db.Date
+  Catatan       String?   @db.VarChar(200)
+  Member        Member    @relation(fields: [MemberID], references: [MemberID], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Notifikasi {
+  NotifikasiID Int      @id @default(autoincrement())
+  Penerima     String   @db.VarChar(10)
+  Jenis        String   @db.VarChar(30)
+  Pesan        String   @db.VarChar(300)
+  Tanggal      DateTime @default(now()) @db.Timestamp(6)
 }
