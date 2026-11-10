@@ -14,9 +14,10 @@ model Admin {
 }
 
 model Barber {
-  BarberID   String      @id @db.VarChar(10)
-  NamaBarber String      @db.VarChar(50)
-  Transaksi  Transaksi[]
+  BarberID       String           @id @db.VarChar(10)
+  NamaBarber     String           @db.VarChar(50)
+  Pesanan_Produk Pesanan_Produk[]
+  Transaksi      Transaksi[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -77,6 +78,7 @@ model Transaksi {
   BarberID                                String             @db.VarChar(10)
   MemberMemberID                          String?            @db.VarChar(10)
   Detail_Transaksi                        Detail_Transaksi[]
+  Status_Layanan                          Status_Layanan?
   Admin                                   Admin              @relation(fields: [AdminID], references: [AdminID], onDelete: NoAction, onUpdate: NoAction)
   Barber                                  Barber             @relation(fields: [BarberID], references: [BarberID], onDelete: NoAction, onUpdate: NoAction)
   Member_Transaksi_MemberIDToMember       Member             @relation("Transaksi_MemberIDToMember", fields: [MemberID], references: [MemberID], onDelete: NoAction, onUpdate: NoAction)
@@ -103,4 +105,49 @@ model Notifikasi {
   Jenis        String   @db.VarChar(30)
   Pesan        String   @db.VarChar(300)
   Tanggal      DateTime @default(now()) @db.Timestamp(6)
+  Dibaca       Boolean  @default(false)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model Pesanan_Produk {
+  PesananID      String    @id @db.VarChar(10)
+  ProdukID       String    @db.VarChar(10)
+  BarberID       String    @db.VarChar(10)
+  SupplierID     String    @db.VarChar(10)
+  Jumlah         Int
+  HargaSatuan    Decimal   @db.Decimal(10, 2)
+  Catatan        String?   @db.VarChar(200)
+  Status         String    @default("Belum dikirim") @db.VarChar(20)
+  TanggalPesan   DateTime  @default(dbgenerated("CURRENT_DATE")) @db.Date
+  TanggalTerima  DateTime? @db.Date
+  JumlahDiterima Int?
+  Barber         Barber    @relation(fields: [BarberID], references: [BarberID], onDelete: NoAction, onUpdate: NoAction)
+  Produk         Produk    @relation(fields: [ProdukID], references: [ProdukID], onDelete: NoAction, onUpdate: NoAction)
+  Supplier       Supplier  @relation(fields: [SupplierID], references: [SupplierID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model Produk {
+  ProdukID       String           @id @db.VarChar(10)
+  NamaProduk     String           @db.VarChar(50)
+  Satuan         String           @db.VarChar(15)
+  Stok           Int              @default(0)
+  HargaSatuan    Decimal          @db.Decimal(10, 2)
+  Pesanan_Produk Pesanan_Produk[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model Status_Layanan {
+  TransaksiID  String    @id @db.VarChar(10)
+  Status       String    @default("Menunggu") @db.VarChar(20)
+  Catatan      String?   @db.VarChar(300)
+  WaktuMulai   DateTime? @db.Timestamp(6)
+  WaktuSelesai DateTime? @db.Timestamp(6)
+  Transaksi    Transaksi @relation(fields: [TransaksiID], references: [TransaksiID], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Supplier {
+  SupplierID     String           @id @db.VarChar(10)
+  NamaSupplier   String           @db.VarChar(50)
+  Pesanan_Produk Pesanan_Produk[]
 }
