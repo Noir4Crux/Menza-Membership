@@ -13,4 +13,4 @@ Login: ID + password demo (DEMO_PASSWORD di .env), sesi cookie menza_session.
 Tabel pendukung di luar ERD: Member_Info (NomorHP, TanggalDaftar, MasaBerlaku) dan Notifikasi.
 Poin: +5 per transaksi untuk member Aktif, 1 poin = Rp100 diskon.
 Endpoint admin: /api/admin/member, verifikasi, masa-berlaku, notifikasi, transaksi, laporan, dashboard.
-
+Endpoint member: /api/member/layanan, me, hitung, pembayaran, transaksi, transaksi/[id]. Pembayaran member hanya membuat notifikasi ke ADM001, bukan Transaksi.
