@@ -21,6 +21,9 @@ export async function GET() {
         Detail_Transaksi: {
           include: { Layanan: { select: { NamaLayanan: true } } },
         },
+        Status_Layanan: {
+          select: { Status: true },
+        },
       },
       orderBy: [{ TanggalTransaksi: "desc" }, { TransaksiID: "desc" }],
     });
@@ -33,6 +36,7 @@ export async function GET() {
         (detail) => detail.Layanan.NamaLayanan,
       ),
       total: transaction.TotalTransaksi.toNumber(),
+      statusLayanan: transaction.Status_Layanan?.Status ?? "Menunggu",
     }));
     return NextResponse.json({ data });
   } catch (error) {

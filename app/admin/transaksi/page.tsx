@@ -29,6 +29,7 @@ type TransactionRow = {
   namaBarber: string;
   namaLayanan: string[];
   total: number;
+  statusLayanan: string;
 };
 
 type ApiResult<T> = { data: T } | { error: string };
@@ -86,9 +87,10 @@ export default function AdminTransaksiPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const loadTodayTransactions = useCallback(async () => {
+  const loadTodayTransactions = useCallback(async (signal?: AbortSignal) => {
     const data = await requestApi<TransactionRow[]>(
       "/api/admin/transaksi/hari-ini",
+      signal ? { signal } : undefined,
     );
     setTodayTransactions(data);
   }, []);
@@ -126,6 +128,26 @@ export default function AdminTransaksiPage() {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const interval = window.setInterval(() => {
+      void loadTodayTransactions(controller.signal).catch((loadError) => {
+        if (!controller.signal.aborted) {
+          setError(
+            loadError instanceof Error
+              ? loadError.message
+              : "Gagal memuat status layanan.",
+          );
+        }
+      });
+    }, 30_000);
+
+    return () => {
+      window.clearInterval(interval);
+      controller.abort();
+    };
+  }, [loadTodayTransactions]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setTanggal(todayInputValue()), 0);
@@ -482,13 +504,14 @@ export default function AdminTransaksiPage() {
               </p>
             ) : (
               <div className="mt-[16px] overflow-x-auto rounded-[8px] border border-[#e9e9e9]">
-                <table className="w-full min-w-[700px] border-collapse text-left text-[12px]">
+                <table className="w-full min-w-[850px] border-collapse text-left text-[12px]">
                   <thead>
                     <tr className="h-[44px] border-b border-[#e9e9e9]">
                       <th className="px-[16px] font-bold">ID Transaksi</th>
                       <th className="px-[16px] font-bold">Member</th>
                       <th className="px-[16px] font-bold">Barber</th>
                       <th className="px-[16px] font-bold">Layanan</th>
+                      <th className="px-[16px] font-bold">Status Layanan</th>
                       <th className="px-[16px] font-bold">Total</th>
                     </tr>
                   </thead>
@@ -503,6 +526,9 @@ export default function AdminTransaksiPage() {
                         <td className="px-[16px]">{transaction.namaBarber}</td>
                         <td className="px-[16px]">
                           {transaction.namaLayanan.join(", ")}
+                        </td>
+                        <td className="px-[16px]">
+                          {transaction.statusLayanan}
                         </td>
                         <td className="px-[16px]">
                           {formatRupiah(transaction.total)}

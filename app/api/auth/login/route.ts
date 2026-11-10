@@ -111,7 +111,11 @@ export async function POST(request: Request) {
           })) !== null;
         break;
       case "supplier":
-        idExists = id.startsWith("SUP");
+        idExists =
+          (await prisma.supplier.findUnique({
+            where: { SupplierID: id },
+            select: { SupplierID: true },
+          })) !== null;
         break;
     }
   }

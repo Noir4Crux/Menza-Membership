@@ -25,6 +25,25 @@ const adminMenuItems = [
   { label: "Laporan Bulanan", icon: "report", href: "/admin/laporan" },
 ];
 
+const barberMenuItems = [
+  { label: "Dashboard", icon: "grid", href: "/barber/dashboard" },
+  { label: "Daftar Layanan", icon: "service", href: "/barber/layanan" },
+  { label: "Stok Produk", icon: "stock", href: "/barber/stok" },
+];
+
+const ownerMenuItems = [
+  { label: "Menu Utama", icon: "grid", href: "/owner/dashboard" },
+  { label: "Notifikasi", icon: "bell", href: "/owner/notifikasi" },
+  { label: "Rekap Transaksi", icon: "transaction", href: "/owner/rekap" },
+  { label: "Laporan Bulanan", icon: "report", href: "/owner/laporan" },
+];
+
+const supplierMenuItems = [
+  { label: "Dashboard", icon: "grid", href: "/supplier/dashboard" },
+  { label: "Rincian Pesanan", icon: "orders", href: "/supplier/pesanan" },
+  { label: "Riwayat Transaksi", icon: "history", href: "/supplier/riwayat" },
+];
+
 function MenuIcon({ name }: { name: string }) {
   if (name === "grid") {
     return (
@@ -109,6 +128,31 @@ function MenuIcon({ name }: { name: string }) {
     );
   }
 
+  if (name === "stock") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[20px] w-[20px] fill-none stroke-current">
+        <path d="m3 7 9-4 9 4-9 4-9-4zM3 12l9 4 9-4M3 17l9 4 9-4" strokeWidth="1.8" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (name === "orders") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[20px] w-[20px] fill-none stroke-current">
+        <path d="M4 8h16l-1 13H5L4 8zM8 8a4 4 0 0 1 8 0M9 12v5M15 12v5" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (name === "history") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[20px] w-[20px] fill-none stroke-current">
+        <path d="M3 12a9 9 0 1 0 3-6.7L3 8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M3 3v5h5M12 7v5l3 2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[20px] w-[20px] fill-none stroke-current">
       <path d="M3 12a9 9 0 1 0 3-6.7L3 8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -122,14 +166,21 @@ export default function Sidebar({ role }: SidebarProps) {
   const menusByRole = {
     member: memberMenuItems,
     admin: adminMenuItems,
-    barber: memberMenuItems,
-    owner: memberMenuItems,
-    supplier: memberMenuItems,
+    barber: barberMenuItems,
+    owner: ownerMenuItems,
+    supplier: supplierMenuItems,
   };
   const menuItems = menusByRole[role];
   const isServicePage =
     pathname === "/member/layanan" || pathname === "/member/ringkasan";
   const isHistoryPage = pathname.startsWith("/member/riwayat");
+  const menuTitles = {
+    member: "Menu Member",
+    admin: "Menu Administrator",
+    barber: "Menu Barber",
+    owner: "Menu Owner",
+    supplier: "Menu Supplier",
+  };
 
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-[240px] flex-col bg-[#181818] text-white md:flex">
@@ -147,9 +198,9 @@ export default function Sidebar({ role }: SidebarProps) {
       </div>
 
       <nav key={role} className="mt-[18px] flex flex-col gap-[2px]" aria-label={`${role} navigation`}>
-        {role === "admin" && (
+        {role !== "member" && (
           <div className="px-[30px] pb-[10px] text-[11px] font-bold text-[#bdbdbd]">
-            Menu Administrator
+            {menuTitles[role]}
           </div>
         )}
         {menuItems.map((item) => (
@@ -158,6 +209,7 @@ export default function Sidebar({ role }: SidebarProps) {
             href={item.href}
             className={`flex h-[50px] items-center gap-[18px] px-[30px] text-[13px] font-bold ${
               (pathname === item.href ||
+                pathname.startsWith(`${item.href}/`) ||
                 (item.href === "/member/layanan" && isServicePage) ||
                 (item.href === "/member/riwayat" && isHistoryPage))
                 ? "border-l-4 border-[#f5c842] bg-black pl-[26px]"

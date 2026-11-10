@@ -14,3 +14,11 @@ Tabel pendukung di luar ERD: Member_Info (NomorHP, TanggalDaftar, MasaBerlaku) d
 Poin: +5 per transaksi untuk member Aktif, 1 poin = Rp100 diskon.
 Endpoint admin: /api/admin/member, verifikasi, masa-berlaku, notifikasi, transaksi, laporan, dashboard.
 Endpoint member: /api/member/layanan, me, hitung, pembayaran, transaksi, transaksi/[id]. Pembayaran member hanya membuat notifikasi ke ADM001, bukan Transaksi.
+
+## Barber, Owner, Supplier
+Tabel pendukung di luar ERD: Supplier, Produk, Pesanan_Produk, Status_Layanan, Notifikasi (kolom Dibaca).
+Status layanan: Menunggu, Sedang Dikerjakan, Selesai. Status pesanan: Belum dikirim, Pengemasan, Dalam pengiriman, Diterima.
+Status stok: Habis (0), Menipis (1 sampai 4), Tersedia (5 atau lebih).
+Owner hanya melihat transaksi yang OwnerID-nya terisi (dikirim Admin).
+Akun demo: BRB001/rafising123@gmail.com, OWN001/zahra123@gmail.com, SUP001/amiflow123@gmail.com, password DEMO_PASSWORD.
+
