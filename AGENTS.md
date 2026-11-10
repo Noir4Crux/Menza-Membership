@@ -22,3 +22,9 @@ Status stok: Habis (0), Menipis (1 sampai 4), Tersedia (5 atau lebih).
 Owner hanya melihat transaksi yang OwnerID-nya terisi (dikirim Admin).
 Akun demo: BRB001/rafising123@gmail.com, OWN001/zahra123@gmail.com, SUP001/amiflow123@gmail.com, password DEMO_PASSWORD.
 
+
+## Deployment
+Database produksi: Neon (Postgres, Singapore). Skema dibuat dengan prisma db push (alamat direct). Vercel memakai alamat pooled.
+Variabel lingkungan: DATABASE_URL, SESSION_SECRET, DEMO_PASSWORD.
+Constraint CHECK dipulihkan lewat SQL Editor Neon karena tidak dibawa db push.
+

@@ -44,3 +44,7 @@ next-env.d.ts
 
 /app/generated/prisma
 !.env.example
+
+database/data-lokal.sql
+
+database/data-lokal.sql
